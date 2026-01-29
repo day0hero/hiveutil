@@ -8,6 +8,7 @@ CONTAINER_ENGINE ?= podman
 # AWS deprovision variables
 CLUSTER ?=
 REGION ?= us-west-1
+DOMAIN ?= .aws.validatedpatterns.io
 AWS_CREDS_DIR ?= $(HOME)/.aws
 
 .PHONY: help
@@ -34,6 +35,6 @@ endif
 		$(IMAGE_NAME):$(IMAGE_TAG) \
 		aws-tag-deprovision \
 		--region $(REGION) \
-		--cluster-domain $(CLUSTER).aws.validatedpatterns.io \
+		--cluster-domain $(CLUSTER).$(DOMAIN) \
 		--creds-dir /home/hive/.aws/credentials \
 		kubernetes.io/cluster/$(CLUSTER)=owned
