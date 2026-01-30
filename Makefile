@@ -8,7 +8,7 @@ CONTAINER_ENGINE ?= podman
 # AWS deprovision variables
 CLUSTER ?=
 REGION ?= us-west-1
-DOMAIN ?= .aws.validatedpatterns.io
+DOMAIN ?= aws.validatedpatterns.io
 AWS_CREDS_DIR ?= $(HOME)/.aws
 
 .PHONY: help
@@ -32,7 +32,7 @@ ifndef CLUSTER
 endif
 	$(CONTAINER_ENGINE) run --rm \
 		-v $(AWS_CREDS_DIR):/home/hive/.aws:ro,Z \
-		$(IMAGE_NAME):$(IMAGE_TAG) \
+		$(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) \
 		aws-tag-deprovision \
 		--region $(REGION) \
 		--cluster-domain $(CLUSTER).$(DOMAIN) \
