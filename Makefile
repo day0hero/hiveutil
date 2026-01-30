@@ -31,10 +31,12 @@ ifndef CLUSTER
 	$(error CLUSTER is required. Usage: make aws-deprovision CLUSTER=mycluster REGION=us-west-2)
 endif
 	$(CONTAINER_ENGINE) run --rm \
+		--userns=keep-id \
+		--user $(shell id -u) \
 		-v $(AWS_CREDS_DIR):/home/hive/.aws:ro,Z \
 		$(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) \
 		aws-tag-deprovision \
 		--region $(REGION) \
 		--cluster-domain $(CLUSTER).$(DOMAIN) \
-		--creds-dir /home/hive/.aws/credentials \
+		--creds-dir /home/hive/.aws \
 		kubernetes.io/cluster/$(CLUSTER)=owned
